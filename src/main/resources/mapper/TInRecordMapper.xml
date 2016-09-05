@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.seapeng.BookSystem.dao.TInRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.seapeng.BookSystem.model.TInRecord" >
+    <constructor >
+      <idArg column="ID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="RECORD_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  
+  <resultMap id="selectAllMap" type="com.seapeng.BookSystem.model.TInRecord">
+    <id property="id" column="ID"/>
+    <result property="recordDate" column="RECORD_DATE"/>
+    <collection property="bookInRecordList" ofType="com.seapeng.BookSystem.model.TBookInRecord">
+          <result property="bookIdFk" column="BOOK_ID_FK"/>
+          <result property="tInRecordIdFk" column="T_IN_RECORD_ID_FK"/>
+        <result property="inSum" column="IN_SUM"/>
+    </collection>
+    <collection property="bookList" ofType="com.seapeng.BookSystem.model.TBook">
+      <id property="id" column="BOOK_ID_FK"/>
+      <result property="bookName" column="BOOK_NAME"/>
+    </collection>
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    ID, RECORD_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_in_record
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll" resultMap="selectAllMap">
+    SELECT inrecord.*,bookinrecord.* ,book.*
+    FROM t_in_record inrecord,t_book_in_record bookinrecord,t_book book
+    WHERE bookinrecord.T_IN_RECORD_ID_FK= inrecord.ID and book.id = bookinrecord.BOOK_ID_FK
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_in_record
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.seapeng.BookSystem.model.TInRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into t_in_record (ID, RECORD_DATE)
+    values (#{id,jdbcType=INTEGER}, #{recordDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.seapeng.BookSystem.model.TInRecord" >
+    insert into t_in_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="recordDate != null" >
+        RECORD_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="recordDate != null" >
+        #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.seapeng.BookSystem.model.TInRecord" >
+    update t_in_record
+    <set >
+      <if test="recordDate != null" >
+        RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.seapeng.BookSystem.model.TInRecord" >
+    update t_in_record
+    set RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
