@@ -19,7 +19,7 @@
         <fieldset>
             <legend class="text-center"><span class="glyphicon glyphicon-home"></span><span>&nbsp;&nbsp;图书入库信息</span></legend>
                 <div class="form-group ">
-                    <label class="col-md-offset-2 col-md-3 text-right" >图书种类  ：</label>
+                    <label class="col-md-offset-2 col-md-3 text-right" >图书名称  ：</label>
                     <div class="col-md-3">
                         <form:select path="id" cssClass="form-control" id="jsp_book_id">
                             <c:forEach items="${bookList}" var="book">

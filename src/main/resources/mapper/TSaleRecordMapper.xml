@@ -3,61 +3,57 @@
 <mapper namespace="com.seapeng.BookSystem.dao.TSaleRecordMapper" >
   <resultMap id="BaseResultMap" type="com.seapeng.BookSystem.model.TSaleRecord" >
     <constructor >
-      <idArg column="ID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <idArg column="SALE_ID" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="RECORD_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
 
-  <resultMap id="bookList" type="com.seapeng.BookSystem.model.TBook">
-    <id property="id" column="ID" />
-    <result property="bookName" column="BOOK_NAME" />
-    <result property="bookIntro" column="BOOK_INTRO"  />
-    <result property="bookPrice" column="BOOK_PRICE"  />
-    <result property="imageUrl" column="IMAGE_URL" />
-    <result property="author" column="AUTHOR" />
-    <result property="repertorySize" column="REPERTORY_SIZE" />
-  </resultMap>
-  <resultMap id="booksaleRecord" type="com.seapeng.BookSystem.model.TBookSaleRecord">
-    <id property="id" column="ID"/>
-    <result property="tradeSum" column="TRADE_SUM"/>
-    <association property="book" javaType="com.seapeng.BookSystem.model.TBook" resultMap="bookList"/>
-  </resultMap>
-  <resultMap id="SaleBookAllList" type="com.seapeng.BookSystem.model.TSaleRecord">
-            <id property="id" column="ID"/>
-            <result property="recordDate" column="RECORD_DATE"/>
-    <association property="bookSaleRecord" javaType="com.seapeng.BookSystem.model.TBookSaleRecord" resultMap="booksaleRecord"/>
-  </resultMap>
 
+  <resultMap id="selectAllMap" type="com.seapeng.BookSystem.model.TSaleRecord">
+    <id property="id" column="SALE_ID"/>
+    <result property="recordDate" column="RECORD_DATE"/>
+    <collection property="bookSaleRecordList" ofType="com.seapeng.BookSystem.model.TBookSaleRecord">
+      <id property="id" column="BOOK_SALE_ID"/>
+      <result property="bookIdFk" column="BOOK_ID_FK"/>
+      <result property="tSaleRecordIdFk" column="T_SALE_RECORD_ID_FK"/>
+      <result property="tradeSum" column="TRADE_SUM"/>
+    </collection>
+    <collection property="bookList" ofType="com.seapeng.BookSystem.model.TBook">
+      <id property="id" column="ID"/>
+      <result property="bookName" column="BOOK_NAME"/>
+      <result property="bookPrice" column="BOOK_PRICE"/>
+    </collection>
+  </resultMap>
 
 
 
   <sql id="Base_Column_List" >
-    ID, RECORD_DATE
+    SALE_ID, RECORD_DATE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_sale_record
-    where ID = #{id,jdbcType=INTEGER}
+    where SALE_ID = #{id,jdbcType=INTEGER}
   </select>
-	<select id="selectAll" resultMap="SaleBookAllList">
+	<select id="selectAll" resultMap="selectAllMap">
       SELECT book.*,salerecord.*,booksalerecord.*
       FROM t_book book,t_sale_record salerecord,t_book_sale_record booksalerecord
-      WHERE booksalerecord.T_SALE_RECORD_ID_FK = salerecord.id AND book.id = booksalerecord.BOOK_ID_FK
+      WHERE booksalerecord.T_SALE_RECORD_ID_FK = salerecord.SALE_ID AND book.ID = booksalerecord.BOOK_ID_FK
     </select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sale_record
-    where ID = #{id,jdbcType=INTEGER}
+    where SALE_ID = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.seapeng.BookSystem.model.TSaleRecord" >
-    insert into t_sale_record (ID, RECORD_DATE)
+  <insert id="insert" parameterType="com.seapeng.BookSystem.model.TSaleRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into t_sale_record (SALE_ID, RECORD_DATE)
     values (#{id,jdbcType=INTEGER}, #{recordDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.seapeng.BookSystem.model.TSaleRecord" >
     insert into t_sale_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        ID,
+        SALE_ID,
       </if>
       <if test="recordDate != null" >
         RECORD_DATE,
@@ -79,11 +75,11 @@
         RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where ID = #{id,jdbcType=INTEGER}
+    where SALE_ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.seapeng.BookSystem.model.TSaleRecord" >
     update t_sale_record
     set RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP}
-    where ID = #{id,jdbcType=INTEGER}
+    where SALE_ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

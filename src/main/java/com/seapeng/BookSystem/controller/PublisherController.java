@@ -32,7 +32,6 @@ public class PublisherController {
 
     @RequestMapping(value = "{id}/delete",method = RequestMethod.GET)
     public String delete(@PathVariable int id){
-        System.out.println(id);
         publisherService.deleteByPrimaryKey(id);
         return "redirect:/web/publisher";
     }

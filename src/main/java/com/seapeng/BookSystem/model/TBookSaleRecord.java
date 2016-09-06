@@ -1,5 +1,7 @@
 package com.seapeng.BookSystem.model;
 
+import java.util.List;
+
 public class TBookSaleRecord {
     private Integer id;
 
@@ -9,32 +11,18 @@ public class TBookSaleRecord {
 
     private Integer tradeSum;
 
-    private TBook book;
+    private List<TBook> bookList;
 
-    private TSaleRecord saleRecord;
 
-    public TBookSaleRecord(Integer id, Integer bookIdFk, Integer tSaleRecordIdFk, Integer tradeSum) {
+    public TBookSaleRecord(Integer id, Integer bookIdFk, Integer tSaleRecordIdFk, Integer tradeSum, List<TBook> bookList) {
         this.id = id;
         this.bookIdFk = bookIdFk;
         this.tSaleRecordIdFk = tSaleRecordIdFk;
         this.tradeSum = tradeSum;
+        this.bookList = bookList;
     }
 
-    public TBook getBook() {
-        return book;
-    }
 
-    public void setBook(TBook book) {
-        this.book = book;
-    }
-
-    public TSaleRecord getSaleRecord() {
-        return saleRecord;
-    }
-
-    public void setSaleRecord(TSaleRecord saleRecord) {
-        this.saleRecord = saleRecord;
-    }
 
     public TBookSaleRecord() {
         super();
@@ -72,6 +60,14 @@ public class TBookSaleRecord {
         this.tradeSum = tradeSum;
     }
 
+    public List<TBook> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<TBook> bookList) {
+        this.bookList = bookList;
+    }
+
     @Override
     public String toString() {
         return "TBookSaleRecord{" +
@@ -79,8 +75,7 @@ public class TBookSaleRecord {
                 ", bookIdFk=" + bookIdFk +
                 ", tSaleRecordIdFk=" + tSaleRecordIdFk +
                 ", tradeSum=" + tradeSum +
-                ", book=" + book +
-                ", saleRecord=" + saleRecord +
+                ", bookList=" + bookList +
                 '}';
     }
 }

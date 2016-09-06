@@ -15,7 +15,7 @@
 <h1 class="text-center">销售管理</h1>
 <hr/>
 <div class="container table-responsive">
-    <a href="inreo/inreoadd"><button class="btn btn-default btn-warning pull-right" style="margin-bottom: 10px">添加信息</button></a>
+    <a href="sale/saleadd"><button class="btn btn-default btn-warning pull-right" style="margin-bottom: 10px">添加信息</button></a>
     <table class="table  table-striped table-hover table-bordered">
         <tr style="background-color: #2aabd2">
             <td>购买书本</td>
@@ -23,17 +23,18 @@
             <td>交易日期</td>
             <td>总数量</td>
         </tr>
-        <%--<c:forEach items="${bookAndSumList}" var="bookAndSum">--%>
-            <%--<tr>--%>
-                <%--<th>${bookAndSum.bookName}</th>--%>
-                <%--<th>${bookAndSum.recordDate.month+1}月--%>
-                        <%--${bookAndSum.recordDate.date}日--%>
-                        <%--${bookAndSum.recordDate.hours}时--%>
-                        <%--${bookAndSum.recordDate.minutes}分--%>
-                        <%--${bookAndSum.recordDate.seconds}</th>--%>
-                <%--<th>${bookAndSum.sum}</th>--%>
-            <%--</tr>--%>
-        <%--</c:forEach>--%>
+        <c:forEach items="${saleBookInfoList}" var="salbook">
+            <tr>
+                <th>${salbook.bookName}</th>
+                <th>${salbook.sumPrice}</th>
+                <th>${salbook.date.month+1}月
+                        ${salbook.date.date}日
+                        ${salbook.date.hours}时
+                        ${salbook.date.minutes}分
+                        ${salbook.date.seconds}</th>
+                <th>${salbook.sum}</th>
+            </tr>
+        </c:forEach>
     </table>
 </div>
 </body>

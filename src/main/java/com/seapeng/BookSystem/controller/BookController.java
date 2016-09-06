@@ -70,7 +70,6 @@ public class BookController {
         }
         book.setImageUrl(imgUrl);}
         bookService.updateByPrimaryKeySelective(book);
-        System.out.println(book);
         return "redirect:/web/book/{id}/information";
     }
 

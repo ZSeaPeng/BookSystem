@@ -3,27 +3,27 @@
 <mapper namespace="com.seapeng.BookSystem.dao.TBookSaleRecordMapper" >
   <resultMap id="BaseResultMap" type="com.seapeng.BookSystem.model.TBookSaleRecord" >
     <constructor >
-      <idArg column="ID" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <idArg column="BOOK_SALE_ID" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="BOOK_ID_FK" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="T_SALE_RECORD_ID_FK" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="TRADE_SUM" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, BOOK_ID_FK, T_SALE_RECORD_ID_FK, TRADE_SUM
+    BOOK_SALE_ID, BOOK_ID_FK, T_SALE_RECORD_ID_FK, TRADE_SUM
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_book_sale_record
-    where ID = #{id,jdbcType=INTEGER}
+    where BOOK_SALE_ID = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_book_sale_record
-    where ID = #{id,jdbcType=INTEGER}
+    where BOOK_SALE_ID = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.seapeng.BookSystem.model.TBookSaleRecord" >
-    insert into t_book_sale_record (ID, BOOK_ID_FK, T_SALE_RECORD_ID_FK, 
+    insert into t_book_sale_record (BOOK_SALE_ID, BOOK_ID_FK, T_SALE_RECORD_ID_FK,
       TRADE_SUM)
     values (#{id,jdbcType=INTEGER}, #{bookIdFk,jdbcType=INTEGER}, #{tSaleRecordIdFk,jdbcType=INTEGER}, 
       #{tradeSum,jdbcType=INTEGER})
@@ -32,7 +32,7 @@
     insert into t_book_sale_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        ID,
+        BOOK_SALE_ID,
       </if>
       <if test="bookIdFk != null" >
         BOOK_ID_FK,
@@ -72,13 +72,13 @@
         TRADE_SUM = #{tradeSum,jdbcType=INTEGER},
       </if>
     </set>
-    where ID = #{id,jdbcType=INTEGER}
+    where BOOK_SALE_ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.seapeng.BookSystem.model.TBookSaleRecord" >
     update t_book_sale_record
     set BOOK_ID_FK = #{bookIdFk,jdbcType=INTEGER},
       T_SALE_RECORD_ID_FK = #{tSaleRecordIdFk,jdbcType=INTEGER},
       TRADE_SUM = #{tradeSum,jdbcType=INTEGER}
-    where ID = #{id,jdbcType=INTEGER}
+    where BOOK_SALE_ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

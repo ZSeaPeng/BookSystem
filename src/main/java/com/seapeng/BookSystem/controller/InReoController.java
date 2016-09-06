@@ -34,17 +34,15 @@ public class InReoController {
     @RequestMapping(method = RequestMethod.GET)
     public String inreo(Model model){
         booklisttemp.clear();
+        count = 0;
         List<TInRecord> inRecordList = inRecordService.selectAll();
         List<BookAndSum> bookAndSumList = new ArrayList<BookAndSum>();
 
         for (TInRecord inRecord:inRecordList){
             for (int i=0;i<inRecord.getBookInRecordList().size();i++){
-                System.out.println("i=  "+i);
-                System.out.println("inRecord.getBookInRecordList().size()=   "+inRecord.getBookInRecordList().size());
                 BookAndSum bookAndSum = new BookAndSum(inRecord.getId(),inRecord.getRecordDate(),inRecord.getBookList().get(i).getBookName(),inRecord.getBookInRecordList().get(i).getInSum());
                 bookAndSumList.add(bookAndSum);
             }
-            System.out.println("bookAndSumList---->"+bookAndSumList.size());
         }
         model.addAttribute("bookAndSumList",bookAndSumList);
         return "web/inreo";
@@ -62,7 +60,23 @@ public class InReoController {
     public String add(TBook book,int size,RedirectAttributes attributes){
         book = bookService.selectByPrimaryKey(book.getId());
         temp = new String[]{book.getBookName(), String.valueOf(book.getBookPrice()), String.valueOf(size), String.valueOf(book.getId()), String.valueOf(count)};
-        booklisttemp.add(temp);
+
+        boolean panduan = true;
+        Iterator<String[]> iterator = booklisttemp.iterator();
+        while (iterator.hasNext()){
+            String[] strings = iterator.next();
+            if (String.valueOf(book.getId()).equals(strings[3])){
+                strings[2] = String.valueOf(Integer.valueOf(strings[2]) + Integer.valueOf(size));
+                System.out.println("");
+                panduan = false;
+                break;
+            }
+        }
+
+        if (panduan){
+            booklisttemp.add(temp);
+        }
+
         attributes.addFlashAttribute("booklisttemp",booklisttemp);
         count++;
         return "redirect:/web/inreo/inreoadd";
@@ -71,11 +85,11 @@ public class InReoController {
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public @ResponseBody TBook getSize(int id){
         TBook book = bookService.selectByPrimaryKey(id);
-        System.out.println(book);
         return book;
     }
     @RequestMapping(value = "/in",method = RequestMethod.GET)
     public String in(){
+        if (!booklisttemp.isEmpty()) {
             TInRecord inRecord = new TInRecord();
             inRecord.setRecordDate(new Date());
             inRecordService.insert(inRecord);
@@ -86,14 +100,16 @@ public class InReoController {
                 bookService.updateByPrimaryKeySelective(inBook);
                 inRecordService.insert(inRecord.getId(), inBook.getId(), Integer.valueOf(s[2]));
             }
-            booklisttemp.clear();
-        System.out.println("------");
+
+        }
+        booklisttemp.clear();
         return "redirect:/web/inreo";
     }
 
     @RequestMapping(value = "/clear",method = RequestMethod.GET)
     public String clear(){
         booklisttemp.clear();
+        count = 0;
         return "redirect:/web/inreo/inreoadd";
     }
 
@@ -102,12 +118,10 @@ public class InReoController {
         Iterator<String[]> iterator = booklisttemp.iterator();
         while (iterator.hasNext()){
             String[] strings = iterator.next();
-            System.out.println("iterator.next()--->"+strings[0]);
             if (temp.equals(strings[4])){
                 iterator.remove();
             }
         }
-        System.out.println("afterlistSize--->"+booklisttemp.size());
         return "redirect:/web/inreo/inreoadd";
     }
 }

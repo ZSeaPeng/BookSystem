@@ -21,4 +21,6 @@ public interface ISaleRecordService {
     int updateByPrimaryKey(TSaleRecord record);
 
     List<TSaleRecord> selectAll();
+
+    int insert(int id,int bookid,int size);
 }

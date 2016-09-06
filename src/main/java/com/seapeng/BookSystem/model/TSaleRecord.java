@@ -1,30 +1,34 @@
 package com.seapeng.BookSystem.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class TSaleRecord {
     private Integer id;
 
     private Date recordDate;
 
-    private TBookSaleRecord bookSaleRecord;
+    private List<TBookSaleRecord> bookSaleRecordList;
 
-    public TSaleRecord(Integer id, Date recordDate, TBookSaleRecord bookSaleRecord) {
+    private List<TBook> bookList;
+
+    public TSaleRecord(Integer id, Date recordDate, List<TBookSaleRecord> bookSaleRecordList, List<TBook> bookList) {
         this.id = id;
         this.recordDate = recordDate;
-        this.bookSaleRecord = bookSaleRecord;
+        this.bookSaleRecordList = bookSaleRecordList;
+        this.bookList = bookList;
     }
 
     public TSaleRecord() {
         super();
     }
 
-    public TBookSaleRecord getBookSaleRecord() {
-        return bookSaleRecord;
+    public List<TBookSaleRecord> getBookSaleRecordList() {
+        return bookSaleRecordList;
     }
 
-    public void setBookSaleRecord(TBookSaleRecord bookSaleRecord) {
-        this.bookSaleRecord = bookSaleRecord;
+    public void setBookSaleRecordList(List<TBookSaleRecord> bookSaleRecordList) {
+        this.bookSaleRecordList = bookSaleRecordList;
     }
 
     public Integer getId() {
@@ -43,12 +47,23 @@ public class TSaleRecord {
         this.recordDate = recordDate;
     }
 
+    public List<TBook> getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(List<TBook> bookList) {
+        this.bookList = bookList;
+    }
+
+
+
     @Override
     public String toString() {
         return "TSaleRecord{" +
                 "id=" + id +
                 ", recordDate=" + recordDate +
-                ", bookSaleRecord=" + bookSaleRecord +
+                ", bookSaleRecordList=" + bookSaleRecordList +
+                ", bookList=" + bookList +
                 '}';
     }
 }
