@@ -92,7 +92,7 @@ public class SaleController {
     }
 
     @RequestMapping(value = "/out",method = RequestMethod.GET)
-    public String in(){
+    public String out(){
         if (!booklisttemp.isEmpty()) {
             TSaleRecord saleRecord = new TSaleRecord();
             saleRecord.setRecordDate(new Date());
