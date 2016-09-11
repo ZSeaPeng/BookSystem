@@ -60,4 +60,8 @@ public class BookService implements IBookService {
         return publisherMapper.selectAll();
     }
 
+    public List<TBook> selectByName(String name) {
+        return bookMapper.selectByName(name);
+    }
+
 }

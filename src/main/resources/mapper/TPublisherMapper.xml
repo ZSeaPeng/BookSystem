@@ -24,7 +24,7 @@
       SELECT * FROM t_publisher
     </select>
   <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
-    SELECT * from t_publisher WHERE pub_name like "%"#{name}"%" or pub_tel like "%"#{name}"%"
+    SELECT * from t_publisher WHERE pub_name like "%"#{name}"%"
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_publisher

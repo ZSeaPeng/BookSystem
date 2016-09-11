@@ -40,7 +40,7 @@
             </ul>
             <form method="post" class="navbar-form navbar-right" role="search" action="/web/search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search" name="some"/>
+                    <input type="text" class="form-control" placeholder="输入出版社名或图书名进行查询" name="some"/>
                 </div>
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>

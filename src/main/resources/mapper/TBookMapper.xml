@@ -166,4 +166,7 @@
   <select id="selectAll" resultMap="allBookMap">
     SELECT book.*,type.*,pub.* FROM t_book book,t_book_type type,t_publisher pub WHERE type.id = book.TYPE_ID_FK and pub.id = book.PUB_ID_FK
   </select>
+  <select id="selectByName" resultMap="allBookMap" parameterType="String">
+     SELECT book.*,type.*,pub.* FROM t_book book,t_book_type type,t_publisher pub WHERE type.id = book.TYPE_ID_FK and pub.id = book.PUB_ID_FK AND book.BOOK_NAME like "%"#{name}"%"
+  </select>
 </mapper>

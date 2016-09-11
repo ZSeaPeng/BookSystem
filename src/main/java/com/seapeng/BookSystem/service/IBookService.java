@@ -27,4 +27,6 @@ public interface IBookService {
     List<TBookType> getTypeList();
 
     List<TPublisher> getPubList();
+
+    List<TBook> selectByName(String name);
 }

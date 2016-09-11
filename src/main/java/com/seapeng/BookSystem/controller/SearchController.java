@@ -1,7 +1,9 @@
 package com.seapeng.BookSystem.controller;
 
 
+import com.seapeng.BookSystem.model.TBook;
 import com.seapeng.BookSystem.model.TPublisher;
+import com.seapeng.BookSystem.service.IBookService;
 import com.seapeng.BookSystem.service.ITPublisherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ public class SearchController {
     @Resource
     private ITPublisherService publisherService;
 
+    @Resource
+    private IBookService bookService;
     @RequestMapping(value = "/search",method = RequestMethod.POST)
     public String search(String some, Model model){
         System.out.println(some);
@@ -28,7 +32,9 @@ public class SearchController {
             model.addAttribute("publishers",publishers);
             return "web/publisher";
         }else {
-            return "web/publisher";
+            List<TBook> bookList = bookService.selectByName(some);
+            model.addAttribute("bookList",bookList);
+            return "web/book";
         }
     }
 }

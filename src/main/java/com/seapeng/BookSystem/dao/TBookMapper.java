@@ -20,4 +20,6 @@ public interface TBookMapper {
     int updateByPrimaryKey(TBook record);
 
     List<TBook> selectAll();
+
+    List<TBook> selectByName(String name);
 }
