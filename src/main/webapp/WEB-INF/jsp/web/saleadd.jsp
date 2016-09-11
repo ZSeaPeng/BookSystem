@@ -91,7 +91,6 @@
             test();
         });
         $("#size").on("blur",function () {
-
             verify();
         })
     });
