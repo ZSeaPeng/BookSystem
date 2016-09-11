@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: zseapeng
@@ -25,13 +26,17 @@
                         <c:forEach items="${bookList}" var="book">
                             <form:option value="${book.id}">${book.bookName}</form:option>
                         </c:forEach>
+
                     </form:select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-offset-2 col-md-3 text-right" >图书数量  ：</label>
                 <div class="col-md-3">
-                    <input class="form-control" type="number"  placeholder="请输入图书数量" name="size"/>
+                    <input title="警告"
+                           data-container="body" data-toggle="popover" data-placement="right"
+                           data-content="输入的图书数量大于库存"
+                           class="form-control" type="number"  placeholder="请输入图书数量" name="size" id="size"/>
                 </div>
             </div>
             <div class="form-group ">
@@ -81,20 +86,26 @@
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function () {
+
         $("#jsp_book_id").on("blur",function () {
             test();
+        });
+        $("#size").on("blur",function () {
+
+            verify();
         })
     });
+    function verify() {
+        var oldSize = $("#showsize").text();
+        var size = $("#size").val();
+        if (parseInt(oldSize)<parseInt(size)){
+            $("#size").popover('show');
+        }else {
+            $("#size").popover('hide');
+        }
+    }
     function test() {
         var jsp_book = $("#jsp_book_id").val();
-//        var jsonhttp = new XMLHttpRequest();
-//        jsonhttp.onreadystatechange = function () {
-//            if (jsonhttp.readyState == 4 && jsonhttp.status == 200){
-//                document.getElementById("showsize").innerHTML = jsonhttp.responseText;
-//            }
-//        };
-//        jsonhttp.open("GET","/web/inreo/get?id="+jsp_book,true);
-//        jsonhttp.send();
         $.getJSON("/web/inreo/get?id="+jsp_book,function (json) {
             document.getElementById("showsize").innerHTML = json.repertorySize;
             document.getElementById("showprice").innerHTML = json.bookPrice;
